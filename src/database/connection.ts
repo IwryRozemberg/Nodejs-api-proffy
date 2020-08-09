@@ -1,10 +1,15 @@
 import knex from 'knex';
-import path from 'path';
+
+const environment = process.env.ENV || 'development';
+const { host, user, password, name, dialect } = require('../config/config')[environment].database;
 
 const db = knex({
-  client: 'sqlite3',
+  client: dialect,
   connection: {
-    filename: path.resolve(__dirname, 'database.sqlite')
+    host,
+    user,
+    password,
+    database: name,
   },
   useNullAsDefault: true,
 });
